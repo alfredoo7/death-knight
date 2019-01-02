@@ -1,4 +1,4 @@
-
+/* 
 .normal {
   font-family: Georgia, sans-serif;
   text-align: center;
@@ -12,4 +12,19 @@
   padding: .6em 0;
   color: white;
   margin: 0;
+} */
+.normal {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+}
+
+.main {
+  padding: 0 8px;
+  flex: 1 0 auto;
 }
