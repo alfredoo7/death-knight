@@ -133,13 +133,9 @@ public class StpService {
         StpGenerateModel stpGenerateModel,
         Map<String, SwaggerDefinition> definitions) {
 
-        // 多个 method 不同的 api 可能使用相同 url 资源，所以 url 定义在循环外
-        String url;
-        if (stpGenerateModel.getUseHostEnvVariables()) {
-            url = "{{host}}" + pathEntry.getKey();
-        } else {
-            url = stpGenerateModel.getHostBasePath() + pathEntry.getKey();
-        }
+        // 多个 method 不同的 api 可能使用相同 url ，所以 url 定义在循环外复用
+        String url = stpGenerateModel.getHost() + stpGenerateModel.getBasePath() + pathEntry.getKey();
+
 //        test
 //        if ("{{host}}/erp/property-tags".equals(url)) {
 //            int i = 1;

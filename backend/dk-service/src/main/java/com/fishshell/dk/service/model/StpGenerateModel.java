@@ -3,6 +3,7 @@ package com.fishshell.dk.service.model;
 
 import com.fishshell.dk.service.model.swagger.SwaggerDoc;
 import lombok.Data;
+import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,9 +31,18 @@ public class StpGenerateModel {
 
         this.schema = "https://schema.getpostman.com/json/collection/v2.0.0/collection.json";
         this.postmanId = "8286c9b3-15b4-0b9a-40ba-358689c38721";
-        this.useHostEnvVariables = stpOptionModel.getUseHostEnvVariables();
         this.headers = stpOptionModel.getHeaders();
-        this.hostBasePath = swaggerDoc.getHost() + swaggerDoc.getBasePath();
+
+        if (stpOptionModel.getUseHostEnvVariables()) {
+            this.host = "{{host}}";
+        } else {
+            this.host = swaggerDoc.getHost();
+        }
+        if (!StringUtils.isEmpty(stpOptionModel.getOverrideBasePath())) {
+            this.basePath = stpOptionModel.getOverrideBasePath();
+        } else {
+            this.basePath = swaggerDoc.getBasePath();
+        }
     }
 
     private Date date;
@@ -45,14 +55,12 @@ public class StpGenerateModel {
     private String postmanId;
 
     /**
-     * 是否使用 {{host}} 环境变量代替写死 host/basePath
-     */
-    private Boolean useHostEnvVariables;
-    /**
      * 添加的 headers 信息
      */
     private Map<String, String> headers;
-    private String hostBasePath;
+
+    private String host;
+    private String basePath;
 
     private String getHashName(String name) {
         return name + "_" + this.dateFormat;

@@ -13,12 +13,19 @@ import java.util.Map;
 @Data
 public class StpOptionModel {
     /**
-     * 是否使用 {{host}} 环境变量代替写死 host/basePath
+     * 是否使用 {{host}} 环境变量代替写死 host
      */
     private Boolean useHostEnvVariables;
+
+    /**
+     * 是否重写 basePath
+     */
+    private String overrideBasePath;
 
     /**
      * 添加的 headers 信息
      */
     private Map<String, String> headers;
+
+    private String url;
 }

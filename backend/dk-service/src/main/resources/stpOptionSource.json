@@ -1,0 +1,60 @@
+{
+  "source": {
+    "fdc": {
+      "useHostEnvVariables": true,
+      "overrideBasePath": null,
+      "headers": {
+        "Auth-User-Base-Info": "{\"userKey\": \"1805142000053113\", \"mobile\": \"13601858246\"}",
+        "ahs-backend-agent": "{\"agentId\": 1, \"agencyId\": 0}"
+      },
+      "url": "http://47.96.53.33:8080/foundation-data-center/v2/api-docs",
+      "remark": "fdc"
+    },
+    "rbc": {
+      "useHostEnvVariables": true,
+      "overrideBasePath": null,
+      "headers": {
+        "Auth-User-Base-Info": "{\"userKey\": \"1805142000053113\", \"mobile\": \"13601858246\"}",
+        "ahs-backend-agent": "{\"agentId\": 1, \"agencyId\": 0}"
+      },
+      "url": "http://47.96.53.33:8080/recycle-business-center/v2/api-docs",
+      "remark": "rbc"
+    },
+    "openapiv2": {
+      "useHostEnvVariables": true,
+      "overrideBasePath": null,
+      "headers": {
+        "Authorization": "{{authorization}}"
+      },
+      "url": "http://uat-cooperator-openapi.aihuishou.com/cooperator-openapi/v2/api-docs",
+      "remark": "java openapi"
+    },
+    "openapi": {
+      "useHostEnvVariables": true,
+      "overrideBasePath": null,
+      "headers": {
+        "Authorization": "{{authorization}}"
+      },
+      "url": "http://uat-open.aihuishou.com/api/cp/swagger/v1/swagger.json",
+      "remark": ".net openapi"
+    },
+    "api-gateway-fdc": {
+      "useHostEnvVariables": true,
+      "overrideBasePath": "/api-gateway/foundation-data-center",
+      "headers": {
+        "ahs-agent": "ahs_pc"
+      },
+      "url": "http://47.96.53.33:8080/foundation-data-center/v2/api-docs",
+      "remark": "api gateway fdc"
+    },
+    "api-gateway-rbc": {
+      "useHostEnvVariables": true,
+      "overrideBasePath": "/api-gateway/recycle-business-center",
+      "headers": {
+        "ahs-agent": "ahs_pc"
+      },
+      "url": "http://47.96.53.33:8080/recycle-business-center/v2/api-docs",
+      "remark": "api gateway rbc"
+    }
+  }
+}
