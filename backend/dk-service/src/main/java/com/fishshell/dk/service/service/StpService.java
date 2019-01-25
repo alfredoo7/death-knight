@@ -14,6 +14,7 @@ import com.fishshell.dk.service.util.StpException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.*;
@@ -62,9 +63,6 @@ public class StpService {
 
     /**
      * V2 版本可以根据 tag 信息生成 folder
-     *
-     * @param swaggerDoc
-     * @param postmanCollection
      */
     private void bindFolder(SwaggerDoc swaggerDoc, PostmanCollection postmanCollection) {
         // 将 swagger 的 tag 作为 postman 建立子文件夹的依据
@@ -84,10 +82,6 @@ public class StpService {
 
     /**
      * V1 版本需要根据每个 api 的 tags 描述来创建 folder
-     *
-     * @param tags
-     * @param pi
-     * @param postmanCollection
      */
     private void bindFolder(List<String> tags, PostmanItem pi, PostmanCollection postmanCollection) {
         if (postmanCollection.getItem() == null) {
@@ -121,11 +115,6 @@ public class StpService {
 
     /**
      * 核心方法,将一个 {@link SwaggerDoc} paths 节点下的一个 Map.Entry bind 为 {@link PostmanItem} 列表,并依附到 {@link PostmanCollection} 对应 item(tag) 下
-     *
-     * @param pathEntry
-     * @param postmanCollection
-     * @param stpGenerateModel
-     * @param definitions
      */
     private void bindItem(
         Map.Entry<String, Map<EnumHttpMethod, SwaggerApiDesc>> pathEntry,
@@ -133,8 +122,9 @@ public class StpService {
         StpGenerateModel stpGenerateModel,
         Map<String, SwaggerDefinition> definitions) {
 
+
         // 多个 method 不同的 api 可能使用相同 url ，所以 url 定义在循环外复用
-        String url = stpGenerateModel.getHost() + stpGenerateModel.getBasePath() + pathEntry.getKey();
+        String url = stpGenerateModel.getHost() + (StringUtils.isEmpty(stpGenerateModel.getBasePath()) ? "" : stpGenerateModel.getBasePath()) + pathEntry.getKey();
 
 //        test
 //        if ("{{host}}/erp/property-tags".equals(url)) {
@@ -180,7 +170,7 @@ public class StpService {
             //headers end
 
             // url 副本
-            String urlCopy = new String(url);
+            StringBuilder urlCopy = new StringBuilder(new String(url));
             if (desc.getParameters() != null) {
                 for (SwaggerApiParameter parameter : desc.getParameters()) {
 
@@ -189,7 +179,7 @@ public class StpService {
                     if (parameter.getIn() == EnumSwaggerApiParameterIn.PATH) {
                         // PATH -> 使用一个默认值替换占位符
                         String format = String.format("{%s}", parameter.getName());
-                        urlCopy = urlCopy.replace(format, defaultValue.toString());
+                        urlCopy = new StringBuilder(urlCopy.toString().replace(format, defaultValue.toString()));
                     }
                     if (parameter.getIn() == EnumSwaggerApiParameterIn.BODY) {
                         // BODY -> 生成 raw 风格的 body
@@ -207,25 +197,21 @@ public class StpService {
                     }
                     if (parameter.getIn() == EnumSwaggerApiParameterIn.QUERY) {
                         // QUERY -> url 拼接
-                        if (urlCopy.contains("?")) {
-                            urlCopy += "&" + parameter.getName() + "=" + defaultValue;
+                        if (urlCopy.toString().contains("?")) {
+                            urlCopy.append("&").append(parameter.getName()).append("=").append(defaultValue);
                         } else {
-                            urlCopy += "?" + parameter.getName() + "=" + defaultValue;
+                            urlCopy.append("?").append(parameter.getName()).append("=").append(defaultValue);
                         }
                     }
                 }
             }
-            pir.setUrl(urlCopy);
+            pir.setUrl(urlCopy.toString());
             bindFolder(desc.getTags(), pi, postmanCollection);
         }
     }
 
     /**
      * 得到 java 类型的默认值
-     *
-     * @param parameter
-     * @param definitions
-     * @return
      */
     private Object getJavaTypeDefaultFromParameter(SwaggerApiParameter parameter, Map<String, SwaggerDefinition> definitions) {
         if (parameter.getSchema() != null) {
@@ -274,10 +260,6 @@ public class StpService {
 
     /**
      * 得到 java 类型的默认值
-     *
-     * @param definition
-     * @param definitions
-     * @return
      */
     private Object getJavaTypeDefaultFromDefinition(SwaggerDefinition definition, Map<String, SwaggerDefinition> definitions) {
         if (definition.getRef() != null) {
@@ -308,10 +290,6 @@ public class StpService {
 
     /**
      * 得到 java 引用类型的默认值
-     *
-     * @param definition
-     * @param definitions
-     * @return
      */
     private Object getRefTypeDefault(SwaggerDefinition definition, Map<String, SwaggerDefinition> definitions) {
         HashMap<String, Object> result = new HashMap<>();
@@ -346,19 +324,13 @@ public class StpService {
 
     /**
      * 得到 java 值类型的默认值,如果无法推断引发 {@link StpException}
-     *
-     * @param type
-     * @param format
-     * @return
      */
     private Object getValueTypeDefault(EnumSwaggerApiParameterType type, String format) {
+        if (type == null) {
+            return "unknown";
+        }
         switch (type) {
             case INTEGER:
-                switch (format) {
-                    case "int32":
-                        return 1;
-                    default:
-                }
                 return 1;
 
             case NUMBER:

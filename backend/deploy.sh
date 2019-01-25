@@ -17,5 +17,5 @@ scp -r ./target/death-knight-service-1.0-SNAPSHOT.jar root@39.106.151.167:/root/
 # ...
 
 # docker build -t death-knight-service .
-# docker run --name death-knight-service -d -p 8080:8080 death-knight-service
+# docker run --name death-knight-service -d -p 8080:8081 death-knight-service
 

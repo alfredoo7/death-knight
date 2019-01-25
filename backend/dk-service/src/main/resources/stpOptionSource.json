@@ -5,7 +5,8 @@
       "overrideBasePath": null,
       "headers": {
         "Auth-User-Base-Info": "{\"userKey\": \"1805142000053113\", \"mobile\": \"13601858246\"}",
-        "ahs-backend-agent": "{\"agentId\": 1, \"agencyId\": 0}"
+        "ahs-backend-agent": "{\"agentId\": 1, \"agencyId\": 0}",
+        "Auth-ObServer-Base-Info": "{\"observerId\":4712,\"name\":\"\\u524d\\u7aef\\u5927\\u738b\\u7fdf\\u006c\\u0075\"}"
       },
       "url": "http://47.96.53.33:8080/foundation-data-center/v2/api-docs",
       "remark": "fdc"

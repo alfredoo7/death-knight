@@ -23,6 +23,11 @@ export default {
         target: 'http://jsonplaceholder.typicode.com/',
         changeOrigin: true,
         pathRewrite: { '^/api' : '' }
-      }
+      },
+      '/bapi': {
+        target: 'http://localhost:8081/',
+        changeOrigin: true,
+        pathRewrite: { '^/bapi' : '' }
+      },
   },
 }

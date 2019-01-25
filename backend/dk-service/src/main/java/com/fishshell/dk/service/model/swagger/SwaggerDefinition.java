@@ -24,7 +24,7 @@ public class SwaggerDefinition {
     private String format;
     private String description;
     private String[] required;
-    private SwaggerDefinition additionalProperties;
+//    private SwaggerDefinition additionalProperties;
 //    @JsonAlias("enum")
 //    private List<Object> enumm;
 //    @JsonIgnore
