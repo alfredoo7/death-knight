@@ -1,21 +1,26 @@
 #!/usr/bin/env bash
 
-#scp -r Dockerfile root@39.106.151.167:/root/docker/websites/death-knight
+mvn clean & mvn package
 
-cd dk-service
+scp -r dk-service/target/death-knight-service-1.0-SNAPSHOT.jar root@39.106.151.167:/root/docker/websites/death-knight
 
-mvn clean
+scp -r ./Dockerfile root@39.106.151.167:/root/docker/websites/death-knight
 
-mvn package
+ssh -p 22 root@39.106.151.167 << eeooff
 
-scp -r ./target/death-knight-service-1.0-SNAPSHOT.jar root@39.106.151.167:/root/docker/websites/death-knight
+cd /root/docker/websites/death-knight
 
-# ssh -p 22 root@39.106.151.167
-# cd /root/docker/websites/death-knight
+docker build -t death-knight-service .
 
-# delete container and images
-# ...
+docker rm -f death-knight-service || true
 
-# docker build -t death-knight-service .
-# docker run --name death-knight-service -d -p 8080:8081 death-knight-service
+docker run --name death-knight-service -d -p 8080:8081 death-knight-service
+
+exit
+
+eeooff
+
+echo done!
+
+
 
