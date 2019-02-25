@@ -21,6 +21,11 @@ public class StpOptionSourceConfig {
     public StpOptionSource source() throws Exception {
         InputStream resourceAsStream = StpOptionSourceConfig.class.getResourceAsStream("/stpOptionSource.json");
         StpOptionSource source = objectMapper.readValue(resourceAsStream, StpOptionSource.class);
+
+        source.getSource().forEach((k, v) -> {
+            v.setKey(k);
+        });
+
         return source;
     }
 }

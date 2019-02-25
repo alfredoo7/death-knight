@@ -12,7 +12,8 @@ public enum EnumContentType {
     APPLICATION_JSON("application/json"),
     TEXT_JSON("text/json"),
     APPLICATION_JSON_PATCH_JSON("application/json-patch+json"),
-    TEXT_PLAIN("text/plain");
+    TEXT_PLAIN("text/plain"),
+    MULTIPART_FORM_DATA("multipart/form-data");
 
     private String value;
 

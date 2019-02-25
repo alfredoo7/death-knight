@@ -21,6 +21,3 @@ exit
 eeooff
 
 echo done!
-
-
-

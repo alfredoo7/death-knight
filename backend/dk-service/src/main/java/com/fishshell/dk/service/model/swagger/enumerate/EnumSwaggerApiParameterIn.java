@@ -11,7 +11,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum EnumSwaggerApiParameterIn {
     PATH("path"),
     BODY("body"),
-    QUERY("query");
+    QUERY("query"),
+    FORM_DATA("formData");
 
     private String value;
 

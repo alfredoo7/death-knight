@@ -122,7 +122,6 @@ public class StpService {
         StpGenerateModel stpGenerateModel,
         Map<String, SwaggerDefinition> definitions) {
 
-
         // 多个 method 不同的 api 可能使用相同 url ，所以 url 定义在循环外复用
         String url = stpGenerateModel.getHost() + (StringUtils.isEmpty(stpGenerateModel.getBasePath()) ? "" : stpGenerateModel.getBasePath()) + pathEntry.getKey();
 
@@ -139,6 +138,7 @@ public class StpService {
             PostmanItemRequest pir = new PostmanItemRequest();
             pi.setRequest(pir);
             pir.setMethod(methodDescEntry.getKey().getValue().toUpperCase());
+            boolean isUnknown = false;
 
             if (desc.getDescription() != null) {
                 pir.setDescription(desc.getDescription());
@@ -153,9 +153,16 @@ public class StpService {
                         contentTypeHeader.setKey("Content-Type");
                         contentTypeHeader.setValue(contentType.getValue());
                         headers.add(contentTypeHeader);
+                    } else if (contentType == EnumContentType.MULTIPART_FORM_DATA) {
+                        isUnknown = true;
+                        break;
                     }
                 }
             }
+            if (isUnknown) {
+                continue;
+            }
+
             if (!CollectionUtils.isEmpty(stpGenerateModel.getHeaders())) {
                 for (Map.Entry<String, String> customerHeaderEntry : stpGenerateModel.getHeaders().entrySet()) {
                     PostmanItemRequestHeader contentTypeHeader = new PostmanItemRequestHeader();
@@ -202,6 +209,8 @@ public class StpService {
                         } else {
                             urlCopy.append("?").append(parameter.getName()).append("=").append(defaultValue);
                         }
+                    } else {
+
                     }
                 }
             }
@@ -283,7 +292,7 @@ public class StpService {
             case OBJECT:
                 return getRefTypeDefault(definition, definitions);
             default:
-                StpException.throwNoImplementException();
+                //StpException.throwNoImplementException();
                 return "unknown";
         }
     }

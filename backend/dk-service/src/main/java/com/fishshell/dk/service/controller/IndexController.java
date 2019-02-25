@@ -6,6 +6,7 @@ import com.fishshell.dk.service.model.StpOptionSource;
 import com.fishshell.dk.service.model.postman.PostmanCollection;
 import com.fishshell.dk.service.model.swagger.SwaggerDoc;
 import com.fishshell.dk.service.service.StpService;
+import com.fishshell.dk.service.util.PageListResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author alfred.zhou
@@ -75,5 +78,11 @@ public class IndexController {
         URL url = new URL(stpOptionModel.getUrl());
         SwaggerDoc swaggerResource = mapper.readValue(url, SwaggerDoc.class);
         return stpService.convert(swaggerResource, stpOptionModel);
+    }
+
+    @GetMapping(value = "options")
+    public PageListResponse<List<StpOptionModel>> options() {
+        List<StpOptionModel> stpOptionModels = new ArrayList<>(stpOptionSource.getSource().values());
+        return new PageListResponse<>(0, new ArrayList<>(stpOptionSource.getSource().values()), 0, stpOptionModels.size(), stpOptionModels.size());
     }
 }

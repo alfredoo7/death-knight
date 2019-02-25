@@ -13,7 +13,9 @@ public enum EnumSwaggerApiParameterType {
     BOOLEAN("boolean"),
     STRING("string"),
     ARRAY("array"),
-    OBJECT("object");
+    OBJECT("object"),
+    REF("ref"),
+    FILE("file");
 
     private String value;
 
