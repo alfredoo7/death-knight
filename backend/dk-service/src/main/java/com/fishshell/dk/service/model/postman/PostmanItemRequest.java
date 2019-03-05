@@ -13,8 +13,8 @@ public class PostmanItemRequest {
     // TODO:(by zf):枚举
     private String method;
 
-    private String url;
-//    private PostmanItemRequestUrl url;
+//    private String url;
+    private PostmanItemRequestUrl url;
 
     private List<PostmanItemRequestHeader> header;
 

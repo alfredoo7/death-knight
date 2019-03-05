@@ -125,8 +125,9 @@ public class StpService {
         String url = stpGenerateModel.getHost() + (StringUtils.isEmpty(stpGenerateModel.getBasePath()) ? "" : stpGenerateModel.getBasePath()) + pathEntry.getKey();
 
 //        test
-//        if (url.contains("diff-from-source")) {
-        if ("{{host}}/recycle-business-center/erp/region-pickup-types/diff-from-source".equals(url)) {
+        if (url.contains("{{host}}/recycle-business-center/bmb/operational-centres")) {
+//        if ("{{host}}/recycle-business-center/erp/region-pickup-types/diff-from-source".equals(url)) {
+//        if ("{{host}}/recycle-business-center/bmb/inquiry/product-inquiry-info/{key}".equals(url)) {
             int i = 1;
             int i1 = i;
         }
@@ -182,11 +183,15 @@ public class StpService {
 
     private void url(PostmanItemRequest pir, SwaggerApiDesc desc, Map<String, SwaggerDefinition> definitions, String url) {
         StringBuilder urlCopy = new StringBuilder(url);
-
         if (desc.getParameters() == null) {
-            pir.setUrl(urlCopy.toString());
+            PostmanItemRequestUrl build = PostmanItemRequestUrl.builder()
+                .host(Arrays.asList(urlCopy.toString()))
+                .raw(urlCopy.toString()).build();
+            pir.setUrl(build);
             return;
         }
+
+        List<PostmanItemRequestUrlQuery> queries = new ArrayList<>();
 
         for (SwaggerApiParameter parameter : desc.getParameters()) {
             // PATH -> 使用一个默认值替换占位符
@@ -204,10 +209,21 @@ public class StpService {
                 } else {
                     urlCopy.append("?").append(parameter.getName()).append("=").append(defaultValue);
                 }
+                PostmanItemRequestUrlQuery query = PostmanItemRequestUrlQuery.builder()
+                    .key(parameter.getName())
+                    .value(defaultValue.toString())
+                    .description(parameter.getDescription()).build();
+                queries.add(query);
             }
         }
 
-        pir.setUrl(urlCopy.toString());
+        // postman 的解析能力很强，potocal host path 不需要很精准的计算，只需要把 url 干掉 querystring 后塞到 host 就可以正确解析了
+        PostmanItemRequestUrl build = PostmanItemRequestUrl.builder()
+            .host(Arrays.asList(urlCopy.toString().split("\\?")[0]))
+            .raw(urlCopy.toString())
+            .query(queries)
+            .build();
+        pir.setUrl(build);
     }
 
     private void body(PostmanItemRequest pir, SwaggerApiDesc desc, Map<String, SwaggerDefinition> definitions) {

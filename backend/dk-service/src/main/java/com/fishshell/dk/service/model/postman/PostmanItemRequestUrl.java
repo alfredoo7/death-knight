@@ -1,5 +1,6 @@
 package com.fishshell.dk.service.model.postman;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
  * @since 2018/12/1
  */
 @Data
+@Builder
 public class PostmanItemRequestUrl {
     private String raw;
     private List<String> host;

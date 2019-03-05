@@ -36,7 +36,7 @@ public class IndexController {
 
     @GetMapping(value = "")
     public PostmanCollection index() throws IOException {
-        return index("rbc", true, null);
+        return index("fdc", true, null);
     }
 
     @GetMapping(value = "download")
@@ -47,7 +47,7 @@ public class IndexController {
 
         byte[] body = mapper.writeValueAsBytes(postmanCollection);
         HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.add("content-disposition", "attachment; filename=" + postmanCollection.getInfo().getFolderName() + ".collection");
+        responseHeaders.add("content-disposition", "attachment; filename=" + postmanCollection.getInfo().getFolderName() + ".json");
         ResponseEntity respEntity = new ResponseEntity(body, responseHeaders, HttpStatus.OK);
         return respEntity;
     }
