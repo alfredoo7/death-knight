@@ -36,7 +36,7 @@ public class IndexController {
 
     @GetMapping(value = "")
     public PostmanCollection index() throws IOException {
-        return index("fdc", true, null);
+        return index("rbc", true, null);
     }
 
     @GetMapping(value = "download")

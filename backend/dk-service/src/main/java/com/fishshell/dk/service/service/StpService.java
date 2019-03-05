@@ -10,7 +10,6 @@ import com.fishshell.dk.service.model.swagger.enumerate.EnumContentType;
 import com.fishshell.dk.service.model.swagger.enumerate.EnumHttpMethod;
 import com.fishshell.dk.service.model.swagger.enumerate.EnumSwaggerApiParameterIn;
 import com.fishshell.dk.service.model.swagger.enumerate.EnumSwaggerApiParameterType;
-import com.fishshell.dk.service.util.StpException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -126,10 +125,11 @@ public class StpService {
         String url = stpGenerateModel.getHost() + (StringUtils.isEmpty(stpGenerateModel.getBasePath()) ? "" : stpGenerateModel.getBasePath()) + pathEntry.getKey();
 
 //        test
-//        if ("{{host}}/erp/property-tags".equals(url)) {
-//            int i = 1;
-//            int i1 = i;
-//        }
+//        if (url.contains("diff-from-source")) {
+        if ("{{host}}/recycle-business-center/erp/region-pickup-types/diff-from-source".equals(url)) {
+            int i = 1;
+            int i1 = i;
+        }
 
         for (Map.Entry<EnumHttpMethod, SwaggerApiDesc> methodDescEntry : pathEntry.getValue().entrySet()) {
             SwaggerApiDesc desc = methodDescEntry.getValue();
@@ -137,85 +137,113 @@ public class StpService {
             pi.setName(desc.getSummary());
             PostmanItemRequest pir = new PostmanItemRequest();
             pi.setRequest(pir);
-            pir.setMethod(methodDescEntry.getKey().getValue().toUpperCase());
-            boolean isUnknown = false;
 
+            pir.setMethod(methodDescEntry.getKey().getValue().toUpperCase());
             if (desc.getDescription() != null) {
                 pir.setDescription(desc.getDescription());
             }
 
-            // headers
-            List<PostmanItemRequestHeader> headers = new ArrayList<>();
-            if (desc.getConsumes() != null) {
-                for (EnumContentType contentType : desc.getConsumes()) {
-                    if (contentType == EnumContentType.APPLICATION_JSON) {
-                        PostmanItemRequestHeader contentTypeHeader = new PostmanItemRequestHeader();
-                        contentTypeHeader.setKey("Content-Type");
-                        contentTypeHeader.setValue(contentType.getValue());
-                        headers.add(contentTypeHeader);
-                    } else if (contentType == EnumContentType.MULTIPART_FORM_DATA) {
-                        isUnknown = true;
-                        break;
-                    }
-                }
-            }
-            if (isUnknown) {
-                continue;
-            }
+            headers(pir, desc, stpGenerateModel);
 
-            if (!CollectionUtils.isEmpty(stpGenerateModel.getHeaders())) {
-                for (Map.Entry<String, String> customerHeaderEntry : stpGenerateModel.getHeaders().entrySet()) {
+            url(pir, desc, definitions, url);
+
+            body(pir, desc, definitions);
+
+            bindFolder(desc.getTags(), pi, postmanCollection);
+        }
+    }
+
+    private void headers(PostmanItemRequest pir, SwaggerApiDesc desc, StpGenerateModel stpGenerateModel) {
+        List<PostmanItemRequestHeader> headers = new ArrayList<>();
+        if (desc.getConsumes() != null) {
+            for (EnumContentType contentType : desc.getConsumes()) {
+                if (contentType == EnumContentType.APPLICATION_JSON) {
                     PostmanItemRequestHeader contentTypeHeader = new PostmanItemRequestHeader();
-                    contentTypeHeader.setKey(customerHeaderEntry.getKey());
-                    contentTypeHeader.setValue(customerHeaderEntry.getValue());
+                    contentTypeHeader.setKey("Content-Type");
+                    contentTypeHeader.setValue(contentType.getValue());
                     headers.add(contentTypeHeader);
                 }
             }
-            if (!CollectionUtils.isEmpty(headers)) {
-                pir.setHeader(headers);
+        }
+
+        if (!CollectionUtils.isEmpty(stpGenerateModel.getHeaders())) {
+            for (Map.Entry<String, String> customerHeaderEntry : stpGenerateModel.getHeaders().entrySet()) {
+                PostmanItemRequestHeader contentTypeHeader = new PostmanItemRequestHeader();
+                contentTypeHeader.setKey(customerHeaderEntry.getKey());
+                contentTypeHeader.setValue(customerHeaderEntry.getValue());
+                headers.add(contentTypeHeader);
             }
-            //headers end
+        }
 
-            // url 副本
-            StringBuilder urlCopy = new StringBuilder(new String(url));
-            if (desc.getParameters() != null) {
-                for (SwaggerApiParameter parameter : desc.getParameters()) {
+        if (!CollectionUtils.isEmpty(headers)) {
+            pir.setHeader(headers);
+        }
+    }
 
+    private void url(PostmanItemRequest pir, SwaggerApiDesc desc, Map<String, SwaggerDefinition> definitions, String url) {
+        StringBuilder urlCopy = new StringBuilder(url);
 
-                    Object defaultValue = getJavaTypeDefaultFromParameter(parameter, definitions);
-                    if (parameter.getIn() == EnumSwaggerApiParameterIn.PATH) {
-                        // PATH -> 使用一个默认值替换占位符
-                        String format = String.format("{%s}", parameter.getName());
-                        urlCopy = new StringBuilder(urlCopy.toString().replace(format, defaultValue.toString()));
-                    }
-                    if (parameter.getIn() == EnumSwaggerApiParameterIn.BODY) {
-                        // BODY -> 生成 raw 风格的 body
-                        if (defaultValue != null) {
-                            try {
-                                String raw = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(defaultValue);
-                                PostmanItemRequestBody body = new PostmanItemRequestBody();
-                                body.setMode("raw");
-                                body.setRaw(raw);
-                                pir.setBody(body);
-                            } catch (IOException e) {
+        if (desc.getParameters() == null) {
+            pir.setUrl(urlCopy.toString());
+            return;
+        }
 
-                            }
-                        }
-                    }
-                    if (parameter.getIn() == EnumSwaggerApiParameterIn.QUERY) {
-                        // QUERY -> url 拼接
-                        if (urlCopy.toString().contains("?")) {
-                            urlCopy.append("&").append(parameter.getName()).append("=").append(defaultValue);
-                        } else {
-                            urlCopy.append("?").append(parameter.getName()).append("=").append(defaultValue);
-                        }
-                    } else {
+        for (SwaggerApiParameter parameter : desc.getParameters()) {
+            // PATH -> 使用一个默认值替换占位符
+            if (parameter.getIn() == EnumSwaggerApiParameterIn.PATH) {
+                Object defaultValue = getJavaTypeDefaultFromParameter(parameter, definitions);
+                String format = String.format("{%s}", parameter.getName());
+                urlCopy = new StringBuilder(urlCopy.toString().replace(format, defaultValue.toString()));
+            }
+
+            // QUERY -> url 拼接
+            if (parameter.getIn() == EnumSwaggerApiParameterIn.QUERY) {
+                Object defaultValue = getJavaTypeDefaultFromParameter(parameter, definitions);
+                if (urlCopy.toString().contains("?")) {
+                    urlCopy.append("&").append(parameter.getName()).append("=").append(defaultValue);
+                } else {
+                    urlCopy.append("?").append(parameter.getName()).append("=").append(defaultValue);
+                }
+            }
+        }
+
+        pir.setUrl(urlCopy.toString());
+    }
+
+    private void body(PostmanItemRequest pir, SwaggerApiDesc desc, Map<String, SwaggerDefinition> definitions) {
+        if (desc.getParameters() == null) {
+            return;
+        }
+
+        for (SwaggerApiParameter parameter : desc.getParameters()) {
+            if (parameter.getIn() == EnumSwaggerApiParameterIn.BODY) {
+                Object defaultValue = getJavaTypeDefaultFromParameter(parameter, definitions);
+                // BODY -> 生成 raw 风格的 body
+                if (defaultValue != null) {
+                    try {
+                        String raw = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(defaultValue);
+                        PostmanItemRequestBody body = new PostmanItemRequestBody();
+                        body.setMode("raw");
+                        body.setRaw(raw);
+                        pir.setBody(body);
+                    } catch (IOException e) {
 
                     }
                 }
             }
-            pir.setUrl(urlCopy.toString());
-            bindFolder(desc.getTags(), pi, postmanCollection);
+
+            if (parameter.getIn() == EnumSwaggerApiParameterIn.FORM_DATA) {
+                PostmanItemRequestBody body = new PostmanItemRequestBody();
+                body.setMode("formdata");
+                PostmanItemRequestBodyFormData formData = PostmanItemRequestBodyFormData.builder()
+                    .key(parameter.getName())
+                    .type(parameter.getType().getValue())
+                    .src("")
+                    .build();
+                List<PostmanItemRequestBodyFormData> formDatas = Arrays.asList(formData);
+                body.setFormdata(formDatas);
+                pir.setBody(body);
+            }
         }
     }
 
@@ -332,7 +360,7 @@ public class StpService {
     }
 
     /**
-     * 得到 java 值类型的默认值,如果无法推断引发 {@link StpException}
+     * 得到 java 值类型的默认值
      */
     private Object getValueTypeDefault(EnumSwaggerApiParameterType type, String format) {
         if (type == null) {
@@ -349,8 +377,6 @@ public class StpService {
             case STRING:
                 return "string1";
 
-            case ARRAY:
-                return "unknown";
             default:
                 return "unknown";
         }
