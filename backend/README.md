@@ -27,6 +27,8 @@
 
 *   [[api-gateway-rbc] - host 环境变量版本](http://39.106.151.167:8080/index/download?name=api-gateway-rbc)
 
+*   [ahs-partner - host 环境变量版本](http://localhost:8081/index/download?name=ahs-partner)
+
 ### TODO
 -   [x] MULTIPART_FORM_DATA的支持
 -   [ ] 序列化器的选择
