@@ -61,9 +61,10 @@
       "useHostEnvVariables": true,
       "overrideBasePath":null,
       "headers": {
-        "X-AHS-TIMESTAMP": "1553282088",
-        "X-AHS-SIGNATURE": "bc5fd5bd6503528632336ac80e857acf",
-        "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGZyZWQwMjIzQDEyNi5jb20iLCJleHAiOjE1NTM4NzY5MjUsImlhdCI6MTU1MzI3MjEyNX0.Ke_18p78JBO78FmW5U0cBkIadtU6foJpZSK9SyDuIzWCwUj_Fb_ymcy4Y69HsgimDyDjZeOQAY9AZ4AooTzSLg"
+        "X-Ahs-Timestamp": "1553282088",
+        "X-Ahs-Signature": "bc5fd5bd6503528632336ac80e857acf",
+        "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGZyZWQwMjIzQDEyNi5jb20iLCJleHAiOjE1NTM4NzY5MjUsImlhdCI6MTU1MzI3MjEyNX0.Ke_18p78JBO78FmW5U0cBkIadtU6foJpZSK9SyDuIzWCwUj_Fb_ymcy4Y69HsgimDyDjZeOQAY9AZ4AooTzSLg",
+        "X-Ahs-Language":"en-US"
       },
       "url": "http://localhost:8080/ahs-partner/v2/api-docs",
       "remark": "ahs-partner"
