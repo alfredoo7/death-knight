@@ -12,7 +12,8 @@ public enum EnumSwaggerApiParameterIn {
     PATH("path"),
     BODY("body"),
     QUERY("query"),
-    FORM_DATA("formData");
+    FORM_DATA("formData"),
+    HEADER("header");
 
     private String value;
 

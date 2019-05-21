@@ -59,15 +59,27 @@
     },
     "ahs-partner": {
       "useHostEnvVariables": true,
-      "overrideBasePath":null,
+      "overrideBasePath": null,
       "headers": {
         "X-Ahs-Timestamp": "1553282088",
         "X-Ahs-Signature": "bc5fd5bd6503528632336ac80e857acf",
         "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZW5nLnpob3VAYWlodWlzaG91LmNvbSIsImlkIjoxMSwiZXhwIjoxNTU1MTQ1NDYzLCJpYXQiOjE1NTQ1NDA2NjN9.GTn3f9dMMqxwPB4O2Irh8GSXVe07StNui7qyNvLqmzuB5eCwJf7WWr_hVghhNtLyAuOQPkuyYOQooddDgcY-TQ",
-        "ahs-language":"zh-TW"
+        "ahs-language": "zh-TW"
       },
       "url": "http://47.96.53.33:8080/ahs-partner/v2/api-docs",
       "remark": "ahs-partner"
+    },
+    "dubai": {
+      "useHostEnvVariables": true,
+      "overrideBasePath": null,
+      "headers": {
+        "Ahs-Guid": "4f6ecfe4-7f62-475a-8793-cd3c1972ed5e",
+        "AHS-App-Id": "10008",
+        "Ahs-Timestamp": "1558405853",
+        "Ahs-Sign": "0dde659c0c9458c403b8b26a7c1865c2"
+      },
+      "url": "http://47.96.53.33/dubai-gateway/v2/api-docs",
+      "remark": "dubai"
     }
   }
 }

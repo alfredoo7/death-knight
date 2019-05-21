@@ -31,6 +31,8 @@
 
 *   [[ahs-partner] - host 环境变量版本](http://39.106.151.167:8080/index/download?name=ahs-partner)
 
+*   [[dubai 网关] - host 环境变量版本](http://39.106.151.167:8080/index/download?name=dubai)
+
 ### TODO
 -   [x] MULTIPART_FORM_DATA的支持
 -   [ ] 序列化器的选择
