@@ -29,10 +29,13 @@
 
 *   [[ahs-partner] - host 环境变量版本](http://39.106.151.167:8080/index/download?name=ahs-partner)
 ```javascript
-// ahs-partner 的鉴权：所有接口的 Authorization 头的值都是 postman 的环境变量 {{authorization}} ,把如下代码贴到登陆接口的 Test 标签即可
-pm.test("set environment variable authorization",function(){
+// ahs-partner 的鉴权
+// 所有接口的 Authorization 头的值都是 postman 的环境变量 {{authorization}} 
+// 把如下代码贴到登陆接口的 Test 标签即可
+
+pm.test("set environment variable authorization", function () {
     var jwtToken = responseHeaders["Token"];
-    pm.environment.set("authorization", "Bearer "+ jwtToken);
+    pm.environment.set("authorization", "Bearer " + jwtToken);
 });
 ```
 
