@@ -41,6 +41,7 @@ pm.test("set environment variable authorization", function () {
 
 *   [[dubai 网关] - host 环境变量版本](http://39.106.151.167:8080/index/download?name=dubai)
 
+*   [[duha 网关] - host 环境变量版本](http://39.106.151.167:8080/index/download?name=duha)
 
 ### TODO
 -   [x] MULTIPART_FORM_DATA的支持
