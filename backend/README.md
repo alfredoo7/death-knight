@@ -39,10 +39,20 @@
     });
     ```
 *   ***[[dubai 网关]](http://39.106.151.167:8080/index/download?name=dubai)***
+    ```javascript
+    // 1.在 erp-gateway login 接口回调加这段脚本并调用,确保 ahs-guid 被打入环境变量
+    // 2.调 ob-users/login
+    pm.test("set environment variable ahs-guid",function(){
+        var jsonData=pm.response.json();
+        var ahsGuid = jsonData["data"];
+        pm.environment.set("ahs-guid", ahsGuid);
+    });
+    ```
 
 *   ***[[duha 网关]](http://39.106.151.167:8080/index/download?name=duha)***
     ```javascript
-    // 1.在 erp-gateway login接口加这段脚本 2.调 ob/sync-session
+    // 1.在 erp-gateway login 接口回调加这段脚本并调用 
+    // 2.调 ob/sync-session
     pm.test("set environment variable ahs-guid",function(){
         var jsonData=pm.response.json();
         var ahsGuid = jsonData["data"];
