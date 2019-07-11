@@ -41,7 +41,8 @@
 *   ***[[dubai 网关]](http://39.106.151.167:8080/index/download?name=dubai)***
     ```javascript
     // 1.在 erp-gateway login 接口回调加这段脚本并调用,确保 ahs-guid 被打入环境变量
-    // 2.调 ob-users/login
+    // 2.调 ob-users/login 登陆ob用户
+    // 3.调 ob-users/set-shop 选择门店
     pm.test("set environment variable ahs-guid",function(){
         var jsonData=pm.response.json();
         var ahsGuid = jsonData["data"];
