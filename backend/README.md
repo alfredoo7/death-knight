@@ -51,14 +51,20 @@
     ```
 
 *   ***[[duha 网关]](http://39.106.151.167:8080/index/download?name=duha)***
-    ```javascript
-    // 1.在 erp-gateway login 接口回调加这段脚本并调用 
-    // 2.调 ob/sync-session
+    ```bash
+    // 1.在 erp-gateway login 接口回调加这段脚本把 erp-gateway 的token打入环境变量
     pm.test("set environment variable ahs-guid",function(){
         var jsonData=pm.response.json();
         var ahsGuid = jsonData["data"];
         pm.environment.set("ahs-guid", ahsGuid);
     });
+
+    // 2.修改 ob/sync-session 的参数如下
+    {
+      "cityId" : 1,
+      "shopId" : 1,
+      "accessToken" : "{{ahs-guid}}"
+    }
     ```
 
 ### TODO

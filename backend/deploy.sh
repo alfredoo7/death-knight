@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-mvn clean & mvn package
+mvn clean & mvn package -DskipTests=true
 
 scp -r dk-service/target/death-knight-service-1.0-SNAPSHOT.jar root@39.106.151.167:/root/docker/websites/death-knight
 
