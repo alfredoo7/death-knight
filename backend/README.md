@@ -19,6 +19,17 @@
 
 *   [openapiv2 - host 环境变量版本](http://39.106.151.167:8080/index/download?name=openapiv2)
 
+*   [businessapp](http://39.106.151.167:8080/index/download?name=businessapp)
+    ```javascript
+    {{host}}/observer/login
+    {
+        "account": "zhangchao",
+        "password": "123456",
+        "macAddress": "90:94:97:C2:F0:2E",
+        "version": "4.5.13"
+    }
+    ```
+
 *   [[api-gateway-fdc] - uat 版本](http://39.106.151.167:8080/index/download?name=api-gateway-fdc&useHost=false)
 
 *   [[api-gateway-fdc] - host 环境变量版本](http://39.106.151.167:8080/index/download?name=api-gateway-fdc)
@@ -50,7 +61,7 @@
     });
     ```
 
-*   ***[[duha 网关]](http://39.106.151.167:8080/index/download?name=duha)***
+*   ***[[duha 网关]](http://localhost:8081/index/download?name=duha)***
     ```bash
     // 1.在 erp-gateway login 接口回调加这段脚本把 erp-gateway 的token打入环境变量
     pm.test("set environment variable ahs-guid",function(){

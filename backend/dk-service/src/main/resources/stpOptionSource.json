@@ -90,8 +90,14 @@
         "Ahs-Timestamp": "1558405853",
         "Ahs-Sign": "0dde659c0c9458c403b8b26a7c1865c2"
       },
-      "url": "http://uat-duha.aihuishou.com/duha-gateway/v2/api-docs",
+      "url": "http://localhost:8080/duha-gateway/v2/api-docs",
       "remark": "duha"
+    },
+    "businessapp": {
+      "useHostEnvVariables": true,
+      "overrideBasePath": null,
+      "url": "http://uat-shop-app.aihuishou.com/swagger/v1/swagger.json",
+      "remark": "businessapp"
     }
   }
 }
