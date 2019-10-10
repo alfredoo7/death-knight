@@ -98,6 +98,15 @@
       "overrideBasePath": null,
       "url": "http://uat-shop-app.aihuishou.com/swagger/v1/swagger.json",
       "remark": "businessapp"
+    },
+    "gateway-huawei": {
+      "useHostEnvVariables": true,
+      "overrideBasePath": null,
+      "url": "http://47.96.53.33/c2b-gateway-huawei/v2/api-docs",
+      "remark": "gateway-huawei",
+      "headers": {
+        "ahs-agent": "HUAWEI_M"
+      }
     }
   }
 }
