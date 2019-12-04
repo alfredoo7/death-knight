@@ -2,22 +2,15 @@
 *   解析 swagger api doc 来生成可以直接导入的 postman collection 文件
 
 ##  快捷入口
+*   [gateway-huawei](http://39.106.151.167:8080/index/download?name=gateway-huawei)
 
-*   [fdc - uat 版本](http://39.106.151.167:8080/index/download?name=fdc&useHost=false)
+*   [fdc](http://39.106.151.167:8080/index/download?name=fdc)
 
-*   [fdc - host 环境变量版本](http://39.106.151.167:8080/index/download?name=fdc)
+*   [rbc](http://39.106.151.167:8080/index/download?name=rbc)
 
-*   [rbc - uat 版本](http://39.106.151.167:8080/index/download?name=rbc&useHost=false)
+*   [老 openapi](http://39.106.151.167:8080/index/download?name=openapi)
 
-*   [rbc - host 环境变量版本](http://39.106.151.167:8080/index/download?name=rbc)
-
-*   [openapi - uat 版本](http://39.106.151.167:8080/index/download?name=openapi&useHost=false)
-
-*   [openapi - host 环境变量版本](http://39.106.151.167:8080/index/download?name=openapi)
-
-*   [openapiv2 - uat 版本](http://39.106.151.167:8080/index/download?name=openapiv2&useHost=false)
-
-*   [openapiv2 - host 环境变量版本](http://39.106.151.167:8080/index/download?name=openapiv2)
+*   [新 openapi](http://39.106.151.167:8080/index/download?name=openapiv2)
 
 *   [businessapp](http://39.106.151.167:8080/index/download?name=businessapp)
     ```javascript
@@ -30,15 +23,11 @@
     }
     ```
 
-*   [[api-gateway-fdc] - uat 版本](http://39.106.151.167:8080/index/download?name=api-gateway-fdc&useHost=false)
+*   [api-gateway-fdc](http://39.106.151.167:8080/index/download?name=api-gateway-fdc)
 
-*   [[api-gateway-fdc] - host 环境变量版本](http://39.106.151.167:8080/index/download?name=api-gateway-fdc)
+*   [api-gateway-rbc](http://39.106.151.167:8080/index/download?name=api-gateway-rbc)
 
-*   [[api-gateway-rbc] - uat 版本](http://39.106.151.167:8080/index/download?name=api-gateway-rbc&useHost=false)
-
-*   [[api-gateway-rbc] - host 环境变量版本](http://39.106.151.167:8080/index/download?name=api-gateway-rbc)
-
-*   ***[[ahs-partner]](http://39.106.151.167:8080/index/download?name=ahs-partner)***
+*   ***[ahs-partner](http://39.106.151.167:8080/index/download?name=ahs-partner)***
     ```javascript
     // ahs-partner 的鉴权
     // 所有接口的 Authorization 头的值都是 postman 的环境变量 {{authorization}} 
@@ -49,7 +38,7 @@
         pm.environment.set("authorization", "Bearer " + jwtToken);
     });
     ```
-*   ***[[dubai 网关]](http://39.106.151.167:8080/index/download?name=dubai)***
+*   ***[dubai](http://39.106.151.167:8080/index/download?name=dubai)***
     ```javascript
     // 1.在 erp-gateway login 接口回调加这段脚本并调用,确保 ahs-guid 被打入环境变量
     // 2.调 ob-users/login 登陆ob用户
@@ -61,7 +50,7 @@
     });
     ```
 
-*   ***[[duha 网关]](http://localhost:8081/index/download?name=duha)***
+*   ***[duha](http://localhost:8081/index/download?name=duha)***
     ```bash
     // 1.在 erp-gateway login 接口回调加这段脚本把 erp-gateway 的token打入环境变量
     pm.test("set environment variable ahs-guid",function(){

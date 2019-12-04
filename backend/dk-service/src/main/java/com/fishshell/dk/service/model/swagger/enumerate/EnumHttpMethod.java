@@ -11,7 +11,8 @@ public enum EnumHttpMethod {
     GET("get"),
     POST("post"),
     PUT("put"),
-    HEAD("head");
+    HEAD("head"),
+    DELETE("delete");
 
     private String value;
 
